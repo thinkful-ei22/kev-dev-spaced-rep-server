@@ -1,4 +1,4 @@
-'use strict';
+
 
 const express = require('express');
 const cors = require('cors');
@@ -15,6 +15,7 @@ app.use(
     skip: (req, res) => process.env.NODE_ENV === 'test'
   })
 );
+
 
 app.use(
   cors({
