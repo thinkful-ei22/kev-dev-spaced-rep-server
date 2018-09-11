@@ -1,0 +1,38 @@
+[
+  {
+    "id": "5b745285ce8de04fbwatashi",
+    "untranslated": "わたし",
+    "phonetic": "watashi",
+    "translation": ["me", "I", "myself"]
+  },
+  {
+    "id": "5b745285ce8de04fb0d8ichi",
+    "untranslated": "いち",
+    "phonetic": "ichi",
+    "translation": ["one"]
+  },
+  {
+    "id": "5b64bd1bc377b892b4c24tni",
+    "untranslated": "に",
+    "phonetic": "ni",
+    "translation": ["two"]
+  },
+  {
+    "id": "5b7460cf20c593464c7thsan",
+    "untranslated": "さん",
+    "phonetic": "san",
+    "translation": ["three"]
+  },
+  {
+    "id": "5b7460d920c593464c7dfyon",
+    "untranslated": "よん",
+    "phonetic": "yon",
+    "translation": ["four"]
+  },
+  {
+    "id": "5b7460d920c593464c7hfigo",
+    "untranslated": "ご",
+    "phonetic": "go",
+    "translation": ["five"]
+  }
+]

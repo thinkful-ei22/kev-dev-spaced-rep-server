@@ -1,9 +1,10 @@
 const express = require('express');
 
+// const Word = require('../db/models/wordSchema');
 
 const router = express.Router();
 
-
+//temp dummy data
 const someWords = [
   {
     id: '5b745285ce8de04fbwatashi',
@@ -46,6 +47,7 @@ const someWords = [
 
 router.get('/random', (req, res, next)=>{
   const wordIdx = Math.floor(Math.random()*someWords.length);
+
 
   res.json(someWords[wordIdx]);
 
