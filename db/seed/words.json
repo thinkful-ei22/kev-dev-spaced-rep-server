@@ -1,0 +1,32 @@
+[
+  {
+    "untranslated": "わたし",
+    "phonetic": "watashi",
+    "translation": ["me", "I", "myself"]
+  },
+  {
+    "untranslated": "いち",
+    "phonetic": "ichi",
+    "translation": ["one"]
+  },
+  {
+    "untranslated": "に",
+    "phonetic": "ni",
+    "translation": ["two"]
+  },
+  {
+    "untranslated": "さん",
+    "phonetic": "san",
+    "translation": ["three"]
+  },
+  {
+    "untranslated": "よん",
+    "phonetic": "yon",
+    "translation": ["four"]
+  },
+  {
+    "untranslated": "ご",
+    "phonetic": "go",
+    "translation": ["five"]
+  }
+]
