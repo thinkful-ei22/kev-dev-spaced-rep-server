@@ -15,6 +15,7 @@ const jwtStrategy = require('./passport/jwt');
 
 const usersRouter = require('./routers/new-user');
 const authRouter = require('./routers/auth');
+const wordsRouter = require('./routers/words');
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,7 @@ app.use(
 
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/words', wordsRouter);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
