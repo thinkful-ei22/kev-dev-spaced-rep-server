@@ -46,7 +46,15 @@ router.get('/random', (req, res, next)=>{
 });
 
 router.get('/:id', (req, res, next)=>{
+  const id = req.params.id;
 
+  const word = someWords.filter(word => word.id === id);
+
+  if(word[0])
+    res.json(word[0]);
+  else
+    next();
+    
 });
 
 
