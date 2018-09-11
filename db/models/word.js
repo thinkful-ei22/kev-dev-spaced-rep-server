@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const wordSchema = new mongoose.Schema({
-  word: {type: Text, required: true},
+  untranslated: {type: Text, required: true},
   phonetic: {type: Text, required: true},
-  translation: {type: Text, required: true}
+  translation: [{type: Text, required: true}]
 });
 
 wordSchema.set('toObject', {
