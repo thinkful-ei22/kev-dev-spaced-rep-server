@@ -1,6 +1,6 @@
 const express = require('express');
 
-// const Word = require('../db/models/wordSchema');
+const Word = require('../db/models/wordSchema');
 
 const router = express.Router();
 
@@ -46,11 +46,19 @@ const someWords = [
 ];
 
 router.get('/random', (req, res, next)=>{
-  const wordIdx = Math.floor(Math.random()*someWords.length);
-
-
-  res.json(someWords[wordIdx]);
-
+  
+  Word.find()
+    .then(results =>{
+      if(results.length > 0){
+        const wordIdx = Math.floor(Math.random()*results.length);
+        res.json(results[wordIdx]);
+      }else{
+        next();
+      }
+    })
+    .catch(err =>{
+      next(err);
+    });
 });
 
 router.get('/:id', (req, res, next)=>{
@@ -58,10 +66,16 @@ router.get('/:id', (req, res, next)=>{
 
   const word = someWords.filter(word => word.id === id);
 
-  if(word[0])
-    res.json(word[0]);
-  else
-    next();
+  console.log('hello?');
+
+  Word.findById(id)
+    .then(results =>{
+      console.log('help', results);
+      res.json(results);
+    })
+    .catch(err =>{
+      next(err);
+    });
     
 });
 
