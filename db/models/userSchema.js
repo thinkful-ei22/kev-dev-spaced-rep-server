@@ -4,7 +4,18 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {type: String, require: true},
   username: {type: String, require: true, unique: true},
-  password: {type: String, require: true}
+  password: {type: String, require: true},
+  progressHead: {type: Number, required: true},
+  progress: [
+    {
+      wordId: {type: mongoose.Schema.Types.ObjectId, ref: 'Word', required: true, unique: true},
+      untranslated: {type: String, required: true, unique: true},
+      phonetic: {type: String, required: true},
+      translated: [{type: String, required: true}],
+      m: {type: Number, required: true},
+      next: {type: Number, required: true}
+    }
+  ]
 });
 
 userSchema.set('timestamps', true);
