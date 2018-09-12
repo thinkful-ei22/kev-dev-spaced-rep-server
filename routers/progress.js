@@ -28,6 +28,7 @@ router.get('/next', (req, res, next) =>{
 router.put('/answer', (req, res, next) =>{
   const userId = req.user.id;
   const isCorrect = req.body.isCorrect;
+  console.log(isCorrect, 'isCorrect');
 
   //TODO: handle 
   User.findById(userId)
@@ -102,6 +103,7 @@ router.put('/answer', (req, res, next) =>{
         res.sendStatus(200);
         // res.json(results);
       }else{
+        console.log('afaewfawefwe');
         next();
       }
     })
