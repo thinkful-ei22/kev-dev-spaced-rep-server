@@ -1,32 +1,32 @@
 [
   {
+    "_id": "5b99573df421843cdcdcc135",
     "untranslated": "わたし",
     "phonetic": "watashi",
     "translation": ["me", "I", "myself"]
   },
   {
+    "_id": "5b99573df421843cdcdcc136",
     "untranslated": "いち",
     "phonetic": "ichi",
     "translation": ["one"]
   },
   {
+    "_id": "5b99573df421843cdcdcc137",
     "untranslated": "に",
     "phonetic": "ni",
     "translation": ["two"]
   },
   {
+    "_id": "5b99573df421843cdcdcc138",
     "untranslated": "さん",
     "phonetic": "san",
     "translation": ["three"]
   },
   {
+    "_id": "5b99573df421843cdcdcc139",
     "untranslated": "よん",
     "phonetic": "yon",
     "translation": ["four"]
-  },
-  {
-    "untranslated": "ご",
-    "phonetic": "go",
-    "translation": ["five"]
   }
 ]
