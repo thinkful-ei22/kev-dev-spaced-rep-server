@@ -30,7 +30,6 @@ router.put('/answer', (req, res, next) =>{
   const isCorrect = req.body.isCorrect;
 
   //TODO: handle 
-  console.log('omaewa mo shinderu', userId);
   User.findById(userId)
     .then(results =>{
       const headIdx = results.progressHead;
@@ -57,10 +56,10 @@ router.put('/answer', (req, res, next) =>{
       //We need to make sure the list is circular, so we grab the end node
       let tailIdx = headIdx;
       for(let i = 0; i < progressArr.length-1; i++){
-        console.log(tailIdx, progressArr[tailIdx].next);
+        // console.log(tailIdx, progressArr[tailIdx].next);
         tailIdx = progressArr[tailIdx].next;
       }
-      console.log('Final tailIdx:', tailIdx);
+      // console.log('Final tailIdx:', tailIdx);
     
       //Shift indexes around accordingly
       if(amountToMove >= progressArr.length-1){
@@ -81,27 +80,27 @@ router.put('/answer', (req, res, next) =>{
 
       // console.log(progressArr);
 
-      
       const updateObj = {$set: {progress: progressArr, progressHead: newHeadIdx}};
       const options = {new: true};
       //send off modified progressArr and newHeadIdx
       return User.findByIdAndUpdate(userId, updateObj, options);
     })
     .then(results =>{
-      let head = results.progressHead;
-      const arr = [];
-      const limit = results.progress.length;
-      console.log(limit);
-      let cnt = 0;
-      while(cnt < limit){
-        arr.push(head);
-        head = results.progress[head].next;
-        cnt++;
-      }
-      console.log(arr);
+      // let head = results.progressHead;
+      // const arr = [];
+      // const limit = results.progress.length;
+      // console.log(limit);
+      // let cnt = 0;
+      // while(cnt < limit){
+      //   arr.push(head);
+      //   head = results.progress[head].next;
+      //   cnt++;
+      // }
+      // console.log(arr);
 
       if(results){
-        res.json(results);
+        res.sendStatus(200);
+        // res.json(results);
       }else{
         next();
       }
@@ -109,10 +108,6 @@ router.put('/answer', (req, res, next) =>{
     .catch(err =>{
       next(err);
     });
-
-  console.log(isCorrect);
-  
-  
 });
 
 /*
