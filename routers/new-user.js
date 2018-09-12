@@ -95,8 +95,10 @@ router.post('/', (req, res, next) => {
         name,
         username,
         password: digest,
+        progressHead: 0,
         progress: wordArr
       };
+      console.log(newUser);
       return User.create(newUser);
     })
     .then(result => {
