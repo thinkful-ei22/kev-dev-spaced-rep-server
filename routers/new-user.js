@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../db/models/userSchema');
+const Word = require('../db/models/wordSchema');
 
 const router = express.Router();
 
@@ -76,14 +77,25 @@ router.post('/', (req, res, next) => {
 
   // Username and password were validated as pre-trimmed
   let { name, username, password = '' } = req.body;
-
-  // Remove explicit hashPassword if using pre-save middleware
-  return User.hashPassword(password)
+  let wordArr = [];
+  //Populate the progress for the user, get ALL the words
+  return Word.find()
+    .then(results =>{
+      for(let i = 0; i < results.length; i++){
+        const next = i === results.length-1 ? 0 : i+1;
+        let newEntry = Object.assign({}, results[i], {wordId: results[i]._id, m: 1, next});
+        delete newEntry._id;
+        wordArr.push(newEntry);
+      }
+      // Remove explicit hashPassword if using pre-save middleware
+      return User.hashPassword(password);
+    })
     .then(digest => {
       const newUser = {
         name,
         username,
         password: digest,
+        progress: wordArr
       };
       return User.create(newUser);
     })
