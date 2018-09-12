@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
   progressHead: {type: Number, required: true}, //always ++ by one, references idx in progress
   progress: [
     {
-      wordId: {type: mongoose.Schema.Types.ObjectId, ref: 'Word', required: true, unique: true},
-      untranslated: {type: String, required: true, unique: true},
+      wordId: {type: mongoose.Schema.Types.ObjectId, required: true},
+      untranslated: {type: String, required: true},
       phonetic: {type: String, required: true},
-      translated: [{type: String, required: true}],
+      translation: [{type: String, required: true}],
       m: {type: Number, required: true}, //m+=2 on success, m=1 on wrong. Determines how far to shove
       next: {type: Number, required: true} //Refers to index in this array
     }
