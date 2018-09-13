@@ -16,8 +16,10 @@ router.get('/history', (req, res, next) => {
     .then(results => {
       if(results){
       // console.log(results);
-        const seeProgress = results.progress;
-        // console.log(seeProgress);
+        const seeProgress = results.progress.map(word =>{
+          word.translation = undefined;
+          return word;
+        });
         res.json(seeProgress);
       }
       else {
