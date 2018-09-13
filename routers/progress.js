@@ -9,6 +9,25 @@ const router = express.Router();
 //Authenticate
 router.use('/', passport.authenticate('jwt', { session: false, failWithError: true }));
 
+router.get('/history', (req, res, next) => {
+  const userId = req.user.id;
+
+  User.findById(userId)
+    .then(results => {
+      if(results){
+      // console.log(results);
+        const seeProgress = results.progress;
+        // console.log(seeProgress);
+        res.json(seeProgress);
+      }
+      else {
+        next();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 
 router.get('/next', (req, res, next) =>{
   const userId = req.user.id;
@@ -24,12 +43,15 @@ router.get('/next', (req, res, next) =>{
     });
 });
 
-
 router.put('/answer', (req, res, next) =>{
   const userId = req.user.id;
   const isCorrect = req.body.isCorrect;
-  console.log(isCorrect, 'isCorrect');
-
+  // console.log(isCorrect, 'isCorrect');
+  if( typeof isCorrect !== 'boolean'){
+    const err = new Error('Property `isCorrect` must be a boolean.');
+    err.status = 422;
+    return next(err);
+  }
   //TODO: handle 
   User.findById(userId)
     .then(results =>{
@@ -38,49 +60,43 @@ router.put('/answer', (req, res, next) =>{
       
       if(isCorrect){
         progressArr[headIdx].m++;
-      }else{
+        progressArr[headIdx].correct++;
+      }else if(isCorrect === false){
         progressArr[headIdx].m = 1;
+        progressArr[headIdx].incorrect++;
       }
-
+      console.log(results);
       const amountToMove = 
         progressArr[headIdx].m >= progressArr.length ? progressArr.length-1
           : progressArr[headIdx].m;
-
-      //next item in the list
+        //next item in the list
       const newHeadIdx = progressArr[headIdx].next;
-
       let targetIdx = headIdx; //put current head after this
       for(let i = 0; i < amountToMove; i++){
         targetIdx = progressArr[targetIdx].next;
       }
-
       //We need to make sure the list is circular, so we grab the end node
       let tailIdx = headIdx;
       for(let i = 0; i < progressArr.length-1; i++){
         // console.log(tailIdx, progressArr[tailIdx].next);
         tailIdx = progressArr[tailIdx].next;
       }
-      // console.log('Final tailIdx:', tailIdx);
-    
+      //console.log('Final tailIdx:', tailIdx);
       //Shift indexes around accordingly
       if(amountToMove >= progressArr.length-1){
         /*m is >= length, so amountToMove will put current head at the end
-          
           tailIdx already points to the head, so we put the current head at the end
           and point it to the new start of the list
         */
         progressArr[headIdx].next = newHeadIdx;
       }else{
-        //sets current head before the node after the target
+        /*sets current head before the node after the target
+        sets target to point to the current head
+        ensures end of list loops to beginning properly */
         progressArr[headIdx].next = progressArr[targetIdx].next;
-        //sets target to point to the current head
         progressArr[targetIdx].next = headIdx;
-        //ensures end of list loops to beginning properly
         progressArr[tailIdx].next = newHeadIdx;
       }
-
-      // console.log(progressArr);
-
       const updateObj = {$set: {progress: progressArr, progressHead: newHeadIdx}};
       const options = {new: true};
       //send off modified progressArr and newHeadIdx
@@ -98,12 +114,9 @@ router.put('/answer', (req, res, next) =>{
       //   cnt++;
       // }
       // console.log(arr);
-
       if(results){
         res.sendStatus(200);
-        // res.json(results);
       }else{
-        console.log('afaewfawefwe');
         next();
       }
     })

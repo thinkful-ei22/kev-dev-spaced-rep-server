@@ -12,8 +12,10 @@ const userSchema = new mongoose.Schema({
       untranslated: {type: String, required: true},
       phonetic: {type: String, required: true},
       translation: [{type: String, required: true}],
-      m: {type: Number, required: true}, //m+=2 on success, m=1 on wrong. Determines how far to shove
-      next: {type: Number, required: true} //Refers to index in this array
+      m: {type: Number, required: true},//m++ on success, m=1 on wrong. Determines how far to shove
+      correct: {type: Number, required: true, default: 0}, 
+      incorrect: {type: Number, required: true, default: 0},
+      next: {type: Number, required: true}, //Refers to index in this array
     }
   ]
 });
