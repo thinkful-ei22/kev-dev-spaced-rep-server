@@ -125,6 +125,41 @@ router.put('/answer', (req, res, next) =>{
     });
 });
 
+router.put('/reset', (req, res, next) => {
+  console.log('Starting');
+  const userId = req.user.id;
+  User.findById(userId)
+    .then(results => {
+      if(results){
+        const progressArr = results.progress;
+        for(let i = 0; i < progressArr.length; i++){
+          progressArr[i].correct = 0;
+          progressArr[i].incorrect = 0;
+          progressArr[i].m = 1;
+          progressArr[i].next = i + 1;
+        }
+        progressArr[progressArr.length-1].next = 0;
+        const updateObj = {$set: {progress: progressArr, progressHead: 0}};
+        const options = {new: true};
+        //send off modified progressArr and newHeadIdx
+        console.log('For loop done');
+        return User.findByIdAndUpdate(userId, updateObj, options);
+      }
+      else {
+        const err = new Error('Could not reset data for user.');
+        err.status = 400;
+        next(err);
+      }
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+
 /*
   Projected m values and linkedList order of five-word library assuming correct
   answers are given every time
