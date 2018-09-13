@@ -81,13 +81,27 @@ router.post('/', (req, res, next) => {
   //Populate the progress for the user, get ALL the words
   return Word.find()
     .then(results =>{
+      console.log(results,'results');
       for(let i = 0; i < results.length; i++){
         const next = i === results.length-1 ? 0 : i+1;
-        let newEntry = Object.assign({}, results[i], {wordId: results[i]._id, m: 1, next});
+        const correct = 0, incorrect = 0;
+        // console.log(results[i], 'results');
+        let newEntry = Object.assign({}, 
+          {wordId: results[i].id, 
+            m: 1, next, 
+            correct, incorrect, 
+            untranslated: results[i].untranslated,
+            phonetic: results[i].phonetic,
+            translation: results[i].translation,
+          });
         delete newEntry._id;
         wordArr.push(newEntry);
+      // untranslated: {type: String, required: true},
+      // phonetic: {type: String, required: true},
+      // translation: [{type: String, required: true}],
       }
       // Remove explicit hashPassword if using pre-save middleware
+      console.log('after the for loop', wordArr);
       return User.hashPassword(password);
     })
     .then(digest => {
@@ -98,7 +112,7 @@ router.post('/', (req, res, next) => {
         progressHead: 0,
         progress: wordArr
       };
-      console.log(newUser);
+      // console.log(newUser, 'newUser =======================');
       return User.create(newUser);
     })
     .then(result => {
