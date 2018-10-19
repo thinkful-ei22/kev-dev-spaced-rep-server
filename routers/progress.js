@@ -15,7 +15,6 @@ router.get('/history', (req, res, next) => {
   User.findById(userId)
     .then(results => {
       if(results){
-      // console.log(results);
         const seeProgress = results.progress.map(word =>{
           word.translation = undefined;
           return word;
@@ -48,13 +47,12 @@ router.get('/next', (req, res, next) =>{
 router.put('/answer', (req, res, next) =>{
   const userId = req.user.id;
   const isCorrect = req.body.isCorrect;
-  // console.log(isCorrect, 'isCorrect');
   if( typeof isCorrect !== 'boolean'){
     const err = new Error('Property `isCorrect` must be a boolean.');
     err.status = 422;
     return next(err);
   }
-  //TODO: handle 
+  
   User.findById(userId)
     .then(results =>{
       const headIdx = results.progressHead;
@@ -67,7 +65,6 @@ router.put('/answer', (req, res, next) =>{
         progressArr[headIdx].m = 1;
         progressArr[headIdx].incorrect++;
       }
-      console.log(results);
       const amountToMove = 
         progressArr[headIdx].m >= progressArr.length ? progressArr.length-1
           : progressArr[headIdx].m;
@@ -80,10 +77,8 @@ router.put('/answer', (req, res, next) =>{
       //We need to make sure the list is circular, so we grab the end node
       let tailIdx = headIdx;
       for(let i = 0; i < progressArr.length-1; i++){
-        // console.log(tailIdx, progressArr[tailIdx].next);
         tailIdx = progressArr[tailIdx].next;
       }
-      //console.log('Final tailIdx:', tailIdx);
       //Shift indexes around accordingly
       if(amountToMove >= progressArr.length-1){
         /*m is >= length, so amountToMove will put current head at the end
@@ -105,17 +100,6 @@ router.put('/answer', (req, res, next) =>{
       return User.findByIdAndUpdate(userId, updateObj, options);
     })
     .then(results =>{
-      // let head = results.progressHead;
-      // const arr = [];
-      // const limit = results.progress.length;
-      // console.log(limit);
-      // let cnt = 0;
-      // while(cnt < limit){
-      //   arr.push(head);
-      //   head = results.progress[head].next;
-      //   cnt++;
-      // }
-      // console.log(arr);
       if(results){
         res.sendStatus(200);
       }else{
@@ -128,7 +112,6 @@ router.put('/answer', (req, res, next) =>{
 });
 
 router.put('/reset', (req, res, next) => {
-  console.log('Starting');
   const userId = req.user.id;
   User.findById(userId)
     .then(results => {
@@ -144,7 +127,6 @@ router.put('/reset', (req, res, next) => {
         const updateObj = {$set: {progress: progressArr, progressHead: 0}};
         const options = {new: true};
         //send off modified progressArr and newHeadIdx
-        console.log('For loop done');
         return User.findByIdAndUpdate(userId, updateObj, options);
       }
       else {

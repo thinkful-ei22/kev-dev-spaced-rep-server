@@ -6,7 +6,6 @@ const router = express.Router();
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -81,11 +80,9 @@ router.post('/', (req, res, next) => {
   //Populate the progress for the user, get ALL the words
   return Word.find()
     .then(results =>{
-      console.log(results,'results');
       for(let i = 0; i < results.length; i++){
         const next = i === results.length-1 ? 0 : i+1;
         const correct = 0, incorrect = 0;
-        // console.log(results[i], 'results');
         let newEntry = Object.assign({}, 
           {wordId: results[i].id, 
             m: 1, next, 
@@ -101,7 +98,6 @@ router.post('/', (req, res, next) => {
       // translation: [{type: String, required: true}],
       }
       // Remove explicit hashPassword if using pre-save middleware
-      console.log('after the for loop', wordArr);
       return User.hashPassword(password);
     })
     .then(digest => {
@@ -112,7 +108,6 @@ router.post('/', (req, res, next) => {
         progressHead: 0,
         progress: wordArr
       };
-      // console.log(newUser, 'newUser =======================');
       return User.create(newUser);
     })
     .then(result => {
