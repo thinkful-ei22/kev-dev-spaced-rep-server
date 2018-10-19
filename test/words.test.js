@@ -31,7 +31,6 @@ describe('Japanese API - Words', function () {
       .then(userData => {
       // console.log(userData);
         user = userData[1][0];
-        console.log('====================================',user, user.username);
         token = jwt.sign({user}, JWT_SECRET);
       });
   });
